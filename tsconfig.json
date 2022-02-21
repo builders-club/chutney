@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "target":"ES2018",
+    "module": "esnext",
     "outDir": "./dist",
     "declaration": true,
     "downlevelIteration": true,
@@ -14,11 +14,11 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "noImplicitAny": true,
-    "esModuleInterop": true
+    "esModuleInterop": false
   },
   "include": [
     "src"
-  ],
+, "webpack.config.js"  ],
   "exclude": [
     "node_modules",
     "**/*.spec.ts"

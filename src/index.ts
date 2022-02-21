@@ -3,7 +3,7 @@ import handlePages from "./pages";
 import handleComponents from "./components";
 import handleData from "./data";
 
-async function chutney() {
+export default async function chutney() {
   // Get data to be used across the entire site.
   const data = await handleData();
 
@@ -11,5 +11,3 @@ async function chutney() {
   await handlePages(data);
   await handleStaticFiles();
 }
-
-export default chutney;

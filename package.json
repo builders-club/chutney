@@ -2,9 +2,10 @@
   "name": "chutney",
   "version": "0.0.10",
   "description": "An opinionated, yet delicious static site generator.",
-  "main": "./dist/index.js",
+  "main": "./dist/chutney.js",
   "type": "module",
   "devDependencies": {
+    "@rollup/plugin-typescript": "^8.3.0",
     "@types/chai": "^4.2.22",
     "@types/chalk": "^2.2.0",
     "@types/mocha": "^9.0.0",
@@ -21,15 +22,19 @@
     "nock": "^13.2.4",
     "nyc": "^15.1.0",
     "prettier": "^2.5.1",
+    "rollup": "^2.67.3",
+    "rollup-plugin-dts": "^4.1.0",
     "sinon": "^13.0.1",
     "ts-node": "^10.5.0",
     "typescript": "^4.5.5"
   },
   "scripts": {
-    "build": "tsc --build tsconfig.json",
+    "build": "npm run tsc && npm run bundle",
+    "bundle": "rollup --config",
     "coverage": "nyc npm run test",
     "lint": "eslint ./src --ext .ts && prettier --config .prettierrc src/*.ts src/**/*.ts --write",
-    "test": "mocha -r ts-node/register tests/*test.ts tests/**/*test.ts --insect"
+    "test": "mocha -r ts-node/register tests/*test.ts tests/**/*test.ts --insect",
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",
@@ -54,5 +59,11 @@
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
     "unified": "^10.1.1"
-  }
+  },
+  "files": [
+    "chutney.d.ts",
+    "chutney.js",
+    "chutney.js.map"
+  ],
+  "types": "chutney.d.ts"
 }
