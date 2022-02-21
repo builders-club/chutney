@@ -1,28 +1,26 @@
-import fs from 'fs/promises';
-import path from 'path';
-import Handlebars from 'handlebars';
+import fs from "fs/promises";
+import path from "path";
+import Handlebars from "handlebars";
 
-const pagesDir = './src/pages/';
-const distDir = './dist/'
+const pagesDir = "./src/pages/";
+const distDir = "./dist/";
 
-let allData = {};
+let allData: Record<string, any> = {};
 
-async function registerPages(data) {
+async function registerPages(data: Record<string, any>) {
   allData = data;
   await processDir(pagesDir);
 }
 
-async function processDir(directory) {
+async function processDir(directory: string) {
   try {
-
     const files = await fs.readdir(directory);
-    let outputDirectory = `${distDir}${directory.replace(pagesDir, '')}`;
+    const outputDirectory = `${distDir}${directory.replace(pagesDir, "")}`;
 
     // Check to see if the directory exists and create if not.
     try {
       await fs.readdir(outputDirectory);
-    }
-    catch (err) {
+    } catch (err) {
       await fs.mkdir(outputDirectory);
     }
 
@@ -30,43 +28,46 @@ async function processDir(directory) {
       const { ext } = path.parse(file);
 
       if (ext) {
-        const html = await fs.readFile(`${directory}${file}`, 'utf-8')
+        const html = await fs.readFile(`${directory}${file}`, "utf-8");
 
         const template = Handlebars.compile(html);
 
-        if (file.includes('[')) {
-          const dataProp = outputDirectory.split('/').slice(-2)[0];
-          const prop = file.replace(ext, '').replace('[', '').replace(']', '');
+        if (file.includes("[")) {
+          const dataProp = outputDirectory.split("/").slice(-2)[0];
+          const prop = file.replace(ext, "").replace("[", "").replace("]", "");
 
           const sourceData = allData[dataProp];
 
           if (sourceData && Array.isArray(sourceData)) {
             for (const data of sourceData) {
-
               const result = template({ ...allData, ...data });
 
-              const pathValue = getPropValue(data, prop)
+              const pathValue = getPropValue(data, prop);
 
               try {
                 await fs.readdir(`${outputDirectory}${pathValue}/`);
-              }
-              catch (err) {
+              } catch (err) {
                 await fs.mkdir(`${outputDirectory}${pathValue}/`);
               }
-              await fs.writeFile(`${outputDirectory}${pathValue}/index.html`, result);
+              await fs.writeFile(
+                `${outputDirectory}${pathValue}/index.html`,
+                result
+              );
             }
           }
         } else {
           const result = template(allData);
 
-          if (file.replace(ext, '').toLocaleLowerCase() !== 'index') {
+          if (file.replace(ext, "").toLocaleLowerCase() !== "index") {
             try {
-              await fs.readdir(`${outputDirectory}${file.replace(ext, '')}/`);
+              await fs.readdir(`${outputDirectory}${file.replace(ext, "")}/`);
+            } catch (err) {
+              await fs.mkdir(`${outputDirectory}${file.replace(ext, "")}/`);
             }
-            catch (err) {
-              await fs.mkdir(`${outputDirectory}${file.replace(ext, '')}/`);
-            }
-            await fs.writeFile(`${outputDirectory}${file.replace(ext, '')}/index.html`, result);
+            await fs.writeFile(
+              `${outputDirectory}${file.replace(ext, "")}/index.html`,
+              result
+            );
           } else {
             await fs.writeFile(`${outputDirectory}index.html`, result);
           }
@@ -76,14 +77,13 @@ async function processDir(directory) {
       }
     }
   } catch (err) {
-    console.log(err)
-    console.log('No pages found.');
+    console.log(err);
+    console.log("No pages found.");
   }
-
 }
 
-function getPropValue(data, prop) {
-  const steps = prop.split('.');
+function getPropValue(data: any, prop: string) {
+  const steps = prop.split(".");
   let value = data;
   while (steps.length > 0) {
     value = value[steps[0]];
