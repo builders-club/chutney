@@ -1,20 +1,32 @@
 // Contents of the file /rollup.config.js
 import typescript from '@rollup/plugin-typescript';
 import dts from "rollup-plugin-dts";
+import { terser } from "rollup-plugin-terser";
+
 const config = [
   {
     input: 'dist/index.js',
     output: {
-      file: 'chutney.js',
+      file: 'bin/chutney.js',
       format: 'es',
       sourcemap: true,
     },
-    external: ['fs/promises', 'path'],
-    plugins: [typescript()]
+    external: [
+      'handlebars',
+      'unified',
+      'remark-parse',
+      'remark-frontmatter',
+      'remark-rehype',
+      'rehype-stringify',
+      'rehype-raw',
+      'fs/promises',
+      'path'
+    ],
+    plugins: [typescript(), terser()]
   }, {
     input: 'dist/index.d.ts',
     output: {
-      file: 'chutney.d.ts',
+      file: 'bin/chutney.d.ts',
       format: 'es'
     },
     plugins: [dts()]

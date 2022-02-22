@@ -2,7 +2,7 @@
   "name": "chutney",
   "version": "0.0.10",
   "description": "An opinionated, yet delicious static site generator.",
-  "main": "./dist/chutney.js",
+  "main": "bin/chutney.js",
   "type": "module",
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.3.0",
@@ -24,6 +24,7 @@
     "prettier": "^2.5.1",
     "rollup": "^2.67.3",
     "rollup-plugin-dts": "^4.1.0",
+    "rollup-plugin-terser": "^7.0.2",
     "sinon": "^13.0.1",
     "ts-node": "^10.5.0",
     "typescript": "^4.5.5"

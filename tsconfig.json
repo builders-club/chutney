@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target":"ES2018",
+    "target": "ESNext",
     "module": "esnext",
     "outDir": "./dist",
     "declaration": true,
@@ -17,8 +17,9 @@
     "esModuleInterop": false
   },
   "include": [
-    "src"
-, "webpack.config.js"  ],
+    "src",
+    "webpack.config.js"
+  ],
   "exclude": [
     "node_modules",
     "**/*.spec.ts"
