@@ -19,6 +19,7 @@ const config = [
       'remark-rehype',
       'rehype-stringify',
       'rehype-raw',
+      'remark-parse-yaml',
       'fs/promises',
       'path'
     ],
